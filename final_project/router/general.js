@@ -90,3 +90,55 @@ public_users.get('/review/:isbn', function (req, res) {
 
 module.exports.general = public_users;
 
+const axios = require('axios');
+
+// Task 10: Get all books – using Promise callbacks
+function getAllBooks() {
+  axios.get('http://localhost:5000/')
+    .then((response) => {
+      console.log(JSON.stringify(response.data, null, 4));
+    })
+    .catch((error) => {
+      console.error("Error fetching all books:", error.message);
+    });
+}
+
+// Task 11: Search by ISBN – using async/await
+async function getBookByISBN(isbn) {
+  try {
+    const response = await axios.get(`http://localhost:5000/isbn/${isbn}`);
+    console.log(JSON.stringify(response.data, null, 4));
+  } catch (error) {
+    console.error("Error fetching book by ISBN:", error.message);
+  }
+}
+
+// Task 12: Search by Author – using Promise callbacks or async/await
+async function getBooksByAuthor(author) {
+  try {
+    const response = await axios.get(`http://localhost:5000/author/${encodeURIComponent(author)}`);
+    console.log(JSON.stringify(response.data, null, 4));
+  } catch (error) {
+    console.error("Error fetching books by author:", error.message);
+  }
+}
+
+// Task 13: Search by Title – using async/await
+async function getBooksByTitle(title) {
+  try {
+    const response = await axios.get(`http://localhost:5000/title/${encodeURIComponent(title)}`);
+    console.log(JSON.stringify(response.data, null, 4));
+  } catch (error) {
+    console.error("Error fetching books by title:", error.message);
+  }
+}
+
+// Example calls
+getAllBooks();
+getBookByISBN(1);
+getBooksByAuthor("Jane Austen");
+getBooksByTitle("Fairy tales");
+
+module.exports = { getAllBooks, getBookByISBN, getBooksByAuthor, getBooksByTitle };
+module.exports.general = public_users;
+module.exports.getBooksByTitle = getBooksByTitle;
